@@ -1,3 +1,6 @@
+
+<img src ="https://github.com/subhashsql/Supplier-Case-Study-Full/blob/new-img-folder/Files_jpeg/sql-database-generic-svgrepo-com.svg" width="150">
+
 # Supplier-Case-Study-Demo Complete
 Supplier -Retailer case study  
 This Demo consists of the code for the project Supplier. 
