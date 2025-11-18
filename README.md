@@ -1,5 +1,5 @@
-# Supplier-Case-Study-Demo Complete
-Supplier -Retailer case study  
+# Supplier Case Study
+Supplier case study  
 This project consists of the code for the project Supplier. 
 This  has 3 tables in the database.
 
