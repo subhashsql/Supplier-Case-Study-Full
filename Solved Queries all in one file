@@ -26,10 +26,12 @@ from supplier_Master m
 						where  pid =1)
 
 			go
+
 --3.List the part id, name, price and difference between price and average price of all parts.
 					select pid,name,price,price-(select avg(price) from PartMaster) as 'differofavg_price'
 					from PartMaster
 					order by 3 desc
+
 --4.List the names of the suppliers who have supplied at least one part where the quantity supplied is lower than 10.
 					select name,city,QTYSUPPLIED,m.pid
 					from supplier_Master s
@@ -40,6 +42,7 @@ from supplier_Master m
 							on s.sid=m.sid
 							order by 3 asc
 							go
+
 --5.	List the names of the suppliers who live in a city where no supply has been made.
 		select * 
 		from [dbo].[supplierMaster]  
@@ -83,10 +86,8 @@ Variation 2:
 								end as pricecatageory
 							from PartMaster 
 							order by PRICE
---8.	List the most recent supply details with information on Product name, price and no. of days elapsed since the latest supply.
-		-- use slef join and use where clause to 
+--8.	List the names of the suppliers who have supplied exactly 10 units of part P1.
 
---9.	List the names of the suppliers who have supplied exactly 10 units of part P1.
 			select name as 'suppliers who have supplied 10 pid 1'
 			from supplier_Master m  join 
 						(select pid,sid
@@ -95,7 +96,7 @@ Variation 2:
 						) s
 						on  
 						s.sid= m.sid
----10.	List the names of the parts supplied by more than one supplier.
+---9.	List the names of the parts supplied by more than one supplier.
 
 select name as 'name of product that have more than one supplier'
 from PartMaster  p join
@@ -104,17 +105,22 @@ from PartMaster  p join
 		group by pid
 		having count (sid) >= 2   ) k
 		  on p.pid = k.pid
---11.	List the names of the parts whose price is less than the average price of parts.
+
+--10.	List the names of the parts whose price is less than the average price of parts.
+
 				select name 
 				from partmaster
 				where price <= (select avg(price)
-									from PartMaster)
---12.	List the category-wise number of parts; exclude those where the sum is > 100 and less than 500. List in the descending order of sum.
+									from PartMaster);
+
+--11.	List the category-wise number of parts; exclude those where the sum is > 100 and less than 500. List in the descending order of sum.
 				select name,CATEGORY, QTYONHAND as 'no.of products'
 				from PartMaster
 				where QTYONHAND between 100 and 500
-				order by 2 asc
-----13.	List the supplier name, part name and supplied quantity for all supplies made between 1st		  and 15th of June 2020.
+				order by 2 asc;
+
+----12.	List the supplier name, part name and supplied quantity for all supplies made between 1st and 15th of June 2020.
+
 				 select s.[name],d.pid,d.qtysupplied
 					from supplierMaster s join 
 										(select qtysupplied,pid,sid,DATEOFSUPPLY
@@ -122,7 +128,8 @@ from PartMaster  p join
 										where DATEOFSUPPLY between '2011-05-01 00:00:00.000'  and  '2011-06-30 00:00:00.000') as d
 										on s.sid=d.sid
 									go
---14.	For all products supplied by Supplier S1, List the part name and total quantity.
+
+--13.	For all products supplied by Supplier S1, List the part name and total quantity.
 				select p.name as product_name,QTYSUPPLIED as 'total quantity supplied',s.pid as product_id
 				from PartMaster p
 					join (select sid,pid,QTYSUPPLIED
@@ -132,7 +139,8 @@ from PartMaster  p join
 							on s.pid=p.pID
 			
 				go
---15.For the part with the minimum price, List the latest supply details (Supplier Name, Part id, Date of supply, Quantity Supplied).
+
+--14.For the part with the minimum price, List the latest supply details (Supplier Name, Part id, Date of supply, Quantity Supplied).
 
 
 			select dateofsupply as 'date of supply',qtysupplied as 'total supplied',m.name as 'supplier name',k.PID as 'product id',minimum_price
